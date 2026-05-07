@@ -1,0 +1,120 @@
+version: '3.8'
+
+# Docker Compose para todos los microservicios Spring Boot y el API Gateway
+# Requiere que docker-compose-db.yml esté corriendo primero
+
+services:
+  # Microservicio de Ventas - gestión de puntos de venta y transacciones
+  ms-ventas:
+    build:
+      context: ./ms-ventas
+      dockerfile: Dockerfile
+    container_name: ms-ventas
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-ventas:5432/db_ventas
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    networks:
+      - cordillera-net
+    restart: unless-stopped
+
+  # Microservicio de Ecommerce - gestión de pedidos online
+  ms-ecommerce:
+    build:
+      context: ./ms-ecommerce
+      dockerfile: Dockerfile
+    container_name: ms-ecommerce
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-ecommerce:5432/db_ecommerce
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SERVER_PORT: 8082
+    ports:
+      - "8082:8082"
+    networks:
+      - cordillera-net
+    restart: unless-stopped
+
+  # Microservicio de Inventario - control de stock y productos
+  ms-inventario:
+    build:
+      context: ./ms-inventario
+      dockerfile: Dockerfile
+    container_name: ms-inventario
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-inventario:5432/db_inventario
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SERVER_PORT: 8083
+    ports:
+      - "8083:8083"
+    networks:
+      - cordillera-net
+    restart: unless-stopped
+
+  # Microservicio Financiero - KPIs, ingresos y egresos
+  ms-financiero:
+    build:
+      context: ./ms-financiero
+      dockerfile: Dockerfile
+    container_name: ms-financiero
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-financiero:5432/db_financiero
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SERVER_PORT: 8084
+    ports:
+      - "8084:8084"
+    networks:
+      - cordillera-net
+    restart: unless-stopped
+
+  # Microservicio de Clientes - CRM e historial de atención
+  ms-clientes:
+    build:
+      context: ./ms-clientes
+      dockerfile: Dockerfile
+    container_name: ms-clientes
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-clientes:5432/db_clientes
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SERVER_PORT: 8085
+    ports:
+      - "8085:8085"
+    networks:
+      - cordillera-net
+    restart: unless-stopped
+
+  # API Gateway - enruta requests del frontend hacia los microservicios
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    environment:
+      SERVER_PORT: 8080
+      MS_VENTAS_URL: http://ms-ventas:8081
+      MS_ECOMMERCE_URL: http://ms-ecommerce:8082
+      MS_INVENTARIO_URL: http://ms-inventario:8083
+      MS_FINANCIERO_URL: http://ms-financiero:8084
+      MS_CLIENTES_URL: http://ms-clientes:8085
+    ports:
+      - "8080:8080"
+    networks:
+      - cordillera-net
+    depends_on:
+      - ms-ventas
+      - ms-ecommerce
+      - ms-inventario
+      - ms-financiero
+      - ms-clientes
+    restart: unless-stopped
+
+networks:
+  cordillera-net:
+    external: true
+    name: cordillera-net

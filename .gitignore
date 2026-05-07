@@ -1,0 +1,26 @@
+# ============================================================
+# .gitignore - Grupo Cordillera
+# ============================================================
+
+# Maven - archivos compilados (se regeneran con mvn)
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+
+# Node - dependencias (se regeneran con npm install)
+**/node_modules/
+**/dist/
+
+# Variables de entorno con credenciales reales (nunca subir)
+.env
+
+# IDEs
+.idea/
+*.iml
+.vscode/settings.json
+.classpath
+.project
+.settings/
+
+# Sistemas operativos
+.DS_Store
+Thumbs.db
