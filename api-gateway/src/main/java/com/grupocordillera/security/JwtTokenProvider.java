@@ -5,6 +5,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
@@ -12,11 +13,21 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret}")
+    @Value("${app.jwt.secret:clave-desarrollo-cambiar-en-produccion-minimo-32-caracteres}")
     private String jwtSecret;
 
-    @Value("${jwt.expiration}")
+    @Value("${app.jwt.expiration:86400000}")
     private long jwtExpirationInMs;
+
+    @PostConstruct
+    public void validateSecretKey() {
+        if (jwtSecret == null || jwtSecret.length() < 32) {
+            throw new IllegalArgumentException(
+                "JWT secret debe tener mínimo 32 caracteres para HS256. " +
+                "Actual: " + (jwtSecret != null ? jwtSecret.length() : 0)
+            );
+        }
+    }
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());

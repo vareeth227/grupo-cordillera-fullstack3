@@ -25,6 +25,12 @@
     </properties>
 
     <dependencies>
+        <!-- Spring WebFlux: programación reactiva -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
         <!-- Spring Cloud Gateway: enrutamiento reactivo de requests -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -107,6 +113,13 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>9.22.3</version>
+        </dependency>
+
+        <!-- Lombok: Generador de código para reducir boilerplate -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

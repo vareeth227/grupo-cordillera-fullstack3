@@ -15,16 +15,6 @@ spring:
     filter:
       order: 5
 
-  # ==================== JPA ====================
-  jpa:
-    show-sql: false  # NUNCA mostrar SQL en producción
-    properties:
-      hibernate:
-        format_sql: false
-    hibernate:
-      ddl-auto: validate  # CRÍTICO: solo validate, usar Flyway para migraciones
-    open-in-view: false  # Lazy loading deshabilidado en producción
-
   # ==================== CACHÉ ====================
   cache:
     type: redis  # En producción usar Redis
@@ -32,16 +22,6 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
       timeout: 60000
-
-  # ==================== DATASOURCE ====================
-  datasource:
-    hikari:
-      maximum-pool-size: 20  # Más conexiones para producción
-      minimum-idle: 5
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      auto-commit: false
 
 # ==================== JWT - DEBE SER CONFIGURADO EN VARIABLES DE ENTORNO ====================
 app:
