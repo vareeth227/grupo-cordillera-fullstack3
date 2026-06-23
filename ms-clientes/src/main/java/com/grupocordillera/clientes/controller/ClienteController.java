@@ -74,4 +74,25 @@ public class ClienteController {
     public ResponseEntity<TicketAtencionDTO> actualizarEstado(@PathVariable Long id, @RequestParam String estado) {
         return ResponseEntity.ok(clienteService.actualizarEstadoTicket(id, estado));
     }
+
+    /** Desactiva (bloquea) un cliente sin eliminarlo */
+    @PatchMapping("/{id}/desactivar")
+    public ResponseEntity<Void> desactivarCliente(@PathVariable Long id) {
+        clienteService.desactivarCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /** Elimina un cliente por su ID */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarCliente(@PathVariable Long id) {
+        clienteService.eliminarCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /** Elimina un ticket por su ID */
+    @DeleteMapping("/tickets/{id}")
+    public ResponseEntity<Void> eliminarTicket(@PathVariable Long id) {
+        clienteService.eliminarTicket(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -10,8 +10,10 @@
 **/node_modules/
 **/dist/
 
-# Variables de entorno con credenciales reales (nunca subir)
+# Variables de entorno y claves privadas (nunca subir)
 .env
+*.pem
+*.key
 
 # IDEs
 .idea/

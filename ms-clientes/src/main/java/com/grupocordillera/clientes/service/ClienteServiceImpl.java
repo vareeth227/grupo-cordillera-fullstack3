@@ -86,7 +86,34 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public TicketAtencionDTO crearTicket(TicketAtencionDTO dto) {
         TicketAtencion ticket = clienteFactory.crearTicket(dto);
+        // Set referencia JPA para generar FK real en BD
+        ticket.setCliente(clienteRepository.getReferenceById(dto.getClienteId()));
         return clienteFactory.toDTO(ticketRepository.save(ticket));
+    }
+
+    @Override
+    @Transactional
+    public void desactivarCliente(Long id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
+        cliente.setActivo(false);
+        clienteRepository.save(cliente);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarCliente(Long id) {
+        if (!clienteRepository.existsById(id))
+            throw new RuntimeException("Cliente no encontrado con ID: " + id);
+        clienteRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarTicket(Long id) {
+        if (!ticketRepository.existsById(id))
+            throw new RuntimeException("Ticket no encontrado con ID: " + id);
+        ticketRepository.deleteById(id);
     }
 
     /**

@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-/**
- * Entidad que representa un pedido online de un cliente.
- * Un pedido contiene uno o más ítems y tiene un estado de ciclo de vida.
- */
 @Entity
 @Table(name = "pedidos")
 @Data
@@ -42,4 +39,7 @@ public class Pedido {
     /** Dirección de despacho para este pedido */
     @Column(name = "direccion_despacho")
     private String direccionDespacho;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedido> items;
 }

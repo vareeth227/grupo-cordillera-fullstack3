@@ -33,4 +33,10 @@ public interface FinancieroService {
 
     /** Calcula los KPIs financieros para un período dado */
     KpiFinancieroDTO calcularKpis(LocalDate inicio, LocalDate fin);
+
+    /** Elimina un ingreso por su ID */
+    void eliminarIngreso(Long id);
+
+    /** Elimina un egreso por su ID */
+    void eliminarEgreso(Long id);
 }

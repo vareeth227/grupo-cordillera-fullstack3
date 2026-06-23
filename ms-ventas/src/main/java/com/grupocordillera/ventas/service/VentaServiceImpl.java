@@ -90,6 +90,22 @@ public class VentaServiceImpl implements VentaService {
         return transaccionFactory.toDTO(guardada);
     }
 
+    @Override
+    @Transactional
+    public void eliminarPuntoDeVenta(Long id) {
+        if (!puntoDeVentaRepository.existsById(id))
+            throw new RuntimeException("Punto de venta no encontrado con ID: " + id);
+        puntoDeVentaRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarTransaccion(Long id) {
+        if (!transaccionRepository.existsById(id))
+            throw new RuntimeException("Transacción no encontrada con ID: " + id);
+        transaccionRepository.deleteById(id);
+    }
+
     /**
      * Genera un reporte diario de ventas para la fecha indicada.
      * Calcula totales de ventas, devoluciones y monto neto.

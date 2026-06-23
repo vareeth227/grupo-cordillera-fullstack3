@@ -1,5 +1,6 @@
 package com.grupocordillera.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-/**
- * Entidad que representa un ítem dentro de un pedido.
- * Cada ítem corresponde a un producto con su cantidad y precio al momento de la compra.
- */
 @Entity
 @Table(name = "items_pedido")
 @Data
@@ -22,9 +19,15 @@ public class ItemPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Referencia al pedido al que pertenece este ítem */
-    @Column(name = "pedido_id", nullable = false)
+    // Columna FK usada en servicios y factory para escritura directa
+    @Column(name = "pedido_id", nullable = false, insertable = false, updatable = false)
     private Long pedidoId;
+
+    // Relación JPA que genera la FK real en la BD
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pedido_id", nullable = false)
+    @JsonIgnore
+    private Pedido pedido;
 
     /** Código del producto (referencia al ms-inventario) */
     @Column(name = "producto_codigo", nullable = false, length = 50)

@@ -34,4 +34,10 @@ public interface VentaService {
 
     /** Genera el reporte de ventas para una fecha específica */
     ReporteDiarioDTO generarReporteDiario(LocalDate fecha);
+
+    /** Elimina un punto de venta por su ID */
+    void eliminarPuntoDeVenta(Long id);
+
+    /** Elimina una transacción por su ID */
+    void eliminarTransaccion(Long id);
 }

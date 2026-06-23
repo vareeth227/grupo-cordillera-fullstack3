@@ -1,5 +1,6 @@
 package com.grupocordillera.clientes.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +23,15 @@ public class TicketAtencion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Cliente que generó el ticket */
-    @Column(name = "cliente_id", nullable = false)
+    // Columna FK para lectura directa en servicios y factory
+    @Column(name = "cliente_id", nullable = false, insertable = false, updatable = false)
     private Long clienteId;
+
+    // Relación JPA que genera la FK real en la BD
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    @JsonIgnore
+    private Cliente cliente;
 
     /** Título breve del problema o consulta */
     @Column(nullable = false, length = 200)

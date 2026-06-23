@@ -21,7 +21,7 @@ export default function FinancieroSection() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: '20px', color: '#1a3a6e' }}>💰 Financiero</h2>
+      <h2 style={{ marginBottom: '20px', fontSize: '16px', fontWeight: 600, color: '#1a3a6e', textTransform: 'uppercase', letterSpacing: '0.6px', paddingBottom: '10px', borderBottom: '2px solid #e8ecf0' }}>Financiero</h2>
 
       {/* Selector de período */}
       <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '20px', background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>

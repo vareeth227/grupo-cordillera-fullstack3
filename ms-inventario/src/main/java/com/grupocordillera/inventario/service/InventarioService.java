@@ -35,4 +35,10 @@ public interface InventarioService {
 
     /** Genera la lista de alertas de productos bajo el umbral mínimo */
     List<AlertaInventarioDTO> generarAlertas();
+
+    /** Elimina un producto por su ID */
+    void eliminarProducto(Long id);
+
+    /** Elimina un registro de stock por su ID */
+    void eliminarStock(Long id);
 }

@@ -58,8 +58,8 @@ Write-Host "   + Ventana abierta para frontend" -ForegroundColor Green
 Write-Host ""
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host "   Todo iniciado. Espera ~3 minutos la primera vez." -ForegroundColor Cyan
-Write-Host "   Dashboard: http://localhost:3000" -ForegroundColor White
-Write-Host "   API Gateway: http://localhost:8080" -ForegroundColor White
+Write-Host "   Dashboard: http://localhost:5173" -ForegroundColor White
+Write-Host "   API Gateway: http://localhost:9090" -ForegroundColor White
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Presiona cualquier tecla para cerrar esta ventana..." -ForegroundColor Gray

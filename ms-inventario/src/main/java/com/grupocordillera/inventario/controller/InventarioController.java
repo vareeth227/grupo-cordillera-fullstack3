@@ -69,4 +69,18 @@ public class InventarioController {
     public ResponseEntity<List<AlertaInventarioDTO>> alertas() {
         return ResponseEntity.ok(inventarioService.generarAlertas());
     }
+
+    /** Elimina un producto del catálogo por su ID */
+    @DeleteMapping("/productos/{id}")
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
+        inventarioService.eliminarProducto(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /** Elimina un registro de stock por su ID */
+    @DeleteMapping("/stock/{id}")
+    public ResponseEntity<Void> eliminarStock(@PathVariable Long id) {
+        inventarioService.eliminarStock(id);
+        return ResponseEntity.noContent().build();
+    }
 }

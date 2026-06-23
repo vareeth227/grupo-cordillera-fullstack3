@@ -83,6 +83,22 @@ public class InventarioServiceImpl implements InventarioService {
         return productoFactory.toDTO(stockRepository.save(stock));
     }
 
+    @Override
+    @Transactional
+    public void eliminarProducto(Long id) {
+        if (!productoRepository.existsById(id))
+            throw new RuntimeException("Producto no encontrado con ID: " + id);
+        productoRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarStock(Long id) {
+        if (!stockRepository.existsById(id))
+            throw new RuntimeException("Stock no encontrado con ID: " + id);
+        stockRepository.deleteById(id);
+    }
+
     /**
      * Detecta todos los productos cuyo stock está por debajo del umbral mínimo.
      * Cruza los datos de stock con el catálogo de productos para generar la alerta completa.

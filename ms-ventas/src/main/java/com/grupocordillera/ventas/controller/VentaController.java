@@ -71,4 +71,16 @@ public class VentaController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         return ResponseEntity.ok(ventaService.generarReporteDiario(fecha));
     }
+
+    @DeleteMapping("/puntos/{id}")
+    public ResponseEntity<Void> eliminarPunto(@PathVariable Long id) {
+        ventaService.eliminarPuntoDeVenta(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/transacciones/{id}")
+    public ResponseEntity<Void> eliminarTransaccion(@PathVariable Long id) {
+        ventaService.eliminarTransaccion(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -1,11 +1,13 @@
 package com.grupocordillera.clientes.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Entidad que representa un cliente del sistema CRM.
@@ -45,4 +47,8 @@ public class Cliente {
     /** Indica si el cliente está activo en el CRM */
     @Column(nullable = false)
     private Boolean activo = true;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<TicketAtencion> tickets;
 }

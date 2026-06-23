@@ -37,4 +37,13 @@ public interface ClienteService {
 
     /** Actualiza el estado de un ticket */
     TicketAtencionDTO actualizarEstadoTicket(Long ticketId, String nuevoEstado);
+
+    /** Desactiva un cliente (bloqueo lógico, no elimina el registro) */
+    void desactivarCliente(Long id);
+
+    /** Elimina un cliente por su ID */
+    void eliminarCliente(Long id);
+
+    /** Elimina un ticket por su ID */
+    void eliminarTicket(Long id);
 }

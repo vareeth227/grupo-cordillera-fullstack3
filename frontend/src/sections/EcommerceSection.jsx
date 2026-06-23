@@ -10,7 +10,7 @@ export default function EcommerceSection() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: '20px', color: '#1a3a6e' }}>🛒 Ecommerce</h2>
+      <h2 style={{ marginBottom: '20px', fontSize: '16px', fontWeight: 600, color: '#1a3a6e', textTransform: 'uppercase', letterSpacing: '0.6px', paddingBottom: '10px', borderBottom: '2px solid #e8ecf0' }}>Ecommerce</h2>
 
       {/* KPIs de pedidos por estado */}
       {!loading && !error && pedidos && (

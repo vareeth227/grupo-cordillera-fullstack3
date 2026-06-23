@@ -1,9 +1,24 @@
 version: '3.8'
 
 # Docker Compose para todos los microservicios Spring Boot y el API Gateway
-# Requiere que docker-compose-db.yml esté corriendo primero
+# Requiere que docker-compose-db.yml esté corriendo primero (en PC-C)
+# Variables en .env: DB_HOST, CORS_ALLOWED_ORIGINS, JWT_SECRET, POSTGRES_USER, POSTGRES_PASSWORD
 
 services:
+  # Eureka Server - service discovery
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    environment:
+      SERVER_PORT: 8761
+    ports:
+      - "8761:8761"
+    networks:
+      - cordillera-net
+    restart: unless-stopped
+
   # Microservicio de Ventas - gestión de puntos de venta y transacciones
   ms-ventas:
     build:
@@ -11,12 +26,13 @@ services:
       dockerfile: Dockerfile
     container_name: ms-ventas
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-ventas:5432/db_ventas
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST:-localhost}:5432/db_ventas
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      SERVER_PORT: 8081
+      SERVER_PORT: 9091
+      EUREKA_HOST: eureka-server
     ports:
-      - "8081:8081"
+      - "9091:9091"
     networks:
       - cordillera-net
     restart: unless-stopped
@@ -28,12 +44,15 @@ services:
       dockerfile: Dockerfile
     container_name: ms-ecommerce
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-ecommerce:5432/db_ecommerce
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST:-localhost}:5433/db_ecommerce
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      SERVER_PORT: 8082
+      SERVER_PORT: 9092
+      MS_CLIENTES_URL: http://ms-clientes:9095
+      MS_INVENTARIO_URL: http://ms-inventario:9093
+      EUREKA_HOST: eureka-server
     ports:
-      - "8082:8082"
+      - "9092:9092"
     networks:
       - cordillera-net
     restart: unless-stopped
@@ -45,12 +64,13 @@ services:
       dockerfile: Dockerfile
     container_name: ms-inventario
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-inventario:5432/db_inventario
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST:-localhost}:5434/db_inventario
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      SERVER_PORT: 8083
+      SERVER_PORT: 9093
+      EUREKA_HOST: eureka-server
     ports:
-      - "8083:8083"
+      - "9093:9093"
     networks:
       - cordillera-net
     restart: unless-stopped
@@ -62,12 +82,13 @@ services:
       dockerfile: Dockerfile
     container_name: ms-financiero
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-financiero:5432/db_financiero
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST:-localhost}:5435/db_financiero
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      SERVER_PORT: 8084
+      SERVER_PORT: 9094
+      EUREKA_HOST: eureka-server
     ports:
-      - "8084:8084"
+      - "9094:9094"
     networks:
       - cordillera-net
     restart: unless-stopped
@@ -79,12 +100,14 @@ services:
       dockerfile: Dockerfile
     container_name: ms-clientes
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-clientes:5432/db_clientes
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST:-localhost}:5436/db_clientes
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      SERVER_PORT: 8085
+      SERVER_PORT: 9095
+      JWT_SECRET: ${JWT_SECRET:-cordillera-jwt-secret-2024-fullstack3-grupo}
+      EUREKA_HOST: eureka-server
     ports:
-      - "8085:8085"
+      - "9095:9095"
     networks:
       - cordillera-net
     restart: unless-stopped
@@ -96,14 +119,17 @@ services:
       dockerfile: Dockerfile
     container_name: api-gateway
     environment:
-      SERVER_PORT: 8080
-      MS_VENTAS_URL: http://ms-ventas:8081
-      MS_ECOMMERCE_URL: http://ms-ecommerce:8082
-      MS_INVENTARIO_URL: http://ms-inventario:8083
-      MS_FINANCIERO_URL: http://ms-financiero:8084
-      MS_CLIENTES_URL: http://ms-clientes:8085
+      SERVER_PORT: 9090
+      MS_VENTAS_URL: http://ms-ventas:9091
+      MS_ECOMMERCE_URL: http://ms-ecommerce:9092
+      MS_INVENTARIO_URL: http://ms-inventario:9093
+      MS_FINANCIERO_URL: http://ms-financiero:9094
+      MS_CLIENTES_URL: http://ms-clientes:9095
+      JWT_SECRET: ${JWT_SECRET:-cordillera-jwt-secret-2024-fullstack3-grupo}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:5173}
+      EUREKA_HOST: eureka-server
     ports:
-      - "8080:8080"
+      - "9090:9090"
     networks:
       - cordillera-net
     depends_on:
@@ -112,9 +138,10 @@ services:
       - ms-inventario
       - ms-financiero
       - ms-clientes
+      - eureka-server
     restart: unless-stopped
 
 networks:
   cordillera-net:
-    external: true
+    driver: bridge
     name: cordillera-net

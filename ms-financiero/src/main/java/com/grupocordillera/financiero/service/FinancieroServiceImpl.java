@@ -77,6 +77,22 @@ public class FinancieroServiceImpl implements FinancieroService {
         return movimientoFactory.toDTO(egresoRepository.save(egreso));
     }
 
+    @Override
+    @Transactional
+    public void eliminarIngreso(Long id) {
+        if (!ingresoRepository.existsById(id))
+            throw new RuntimeException("Ingreso no encontrado con ID: " + id);
+        ingresoRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarEgreso(Long id) {
+        if (!egresoRepository.existsById(id))
+            throw new RuntimeException("Egreso no encontrado con ID: " + id);
+        egresoRepository.deleteById(id);
+    }
+
     /**
      * Calcula los KPIs financieros para el período especificado.
      * Suma ingresos y egresos del período, calcula utilidad y margen de rentabilidad.

@@ -26,12 +26,12 @@ export default function App() {
       <Navbar activeSection={activeSection} onSectionChange={setActiveSection} />
 
       {/* Cabecera del dashboard */}
-      <div style={{ background: 'linear-gradient(135deg, #1a3a6e 0%, #2563eb 100%)', padding: '24px 32px', marginBottom: '24px' }}>
-        <h1 style={{ color: 'white', fontSize: '24px', fontWeight: 700 }}>
+      <div style={{ background: '#162d54', padding: '20px 32px', marginBottom: '24px', borderBottom: '1px solid #1e3a6e' }}>
+        <h1 style={{ color: 'white', fontSize: '20px', fontWeight: 600, letterSpacing: '0.2px' }}>
           Dashboard Ejecutivo
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.8)', marginTop: '4px', fontSize: '14px' }}>
-          Monitoreo en tiempo real · {new Date().toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+        <p style={{ color: 'rgba(255,255,255,0.55)', marginTop: '3px', fontSize: '13px' }}>
+          {new Date().toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       </div>
 

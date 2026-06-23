@@ -27,4 +27,7 @@ public interface PedidoService {
 
     /** Actualiza el estado de un pedido existente */
     PedidoDTO actualizarEstado(Long id, String nuevoEstado);
+
+    /** Elimina un pedido y sus ítems por su ID */
+    void eliminarPedido(Long id);
 }

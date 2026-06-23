@@ -74,4 +74,18 @@ public class FinancieroController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
         return ResponseEntity.ok(financieroService.calcularKpis(inicio, fin));
     }
+
+    /** Elimina un ingreso por su ID */
+    @DeleteMapping("/ingresos/{id}")
+    public ResponseEntity<Void> eliminarIngreso(@PathVariable Long id) {
+        financieroService.eliminarIngreso(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /** Elimina un egreso por su ID */
+    @DeleteMapping("/egresos/{id}")
+    public ResponseEntity<Void> eliminarEgreso(@PathVariable Long id) {
+        financieroService.eliminarEgreso(id);
+        return ResponseEntity.noContent().build();
+    }
 }
