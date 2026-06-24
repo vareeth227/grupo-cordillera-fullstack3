@@ -80,11 +80,11 @@ https://github.com/vareeth227/grupo-cordillera-fullstack3
 Documentacion general, guia de usuario y arquitectura del sistema.
 
 **Repositorio Frontend**
-[COMPLETAR CON URL DEL REPOSITORIO FRONTEND]
+https://github.com/vareeth227/grupo-cordillera-frontend
 Codigo fuente de la aplicacion React, configuracion de Vite y pruebas con Vitest.
 
 **Repositorio de Microservicios (Backend)**
-[COMPLETAR CON URL DEL REPOSITORIO DE MICROSERVICIOS]
+https://github.com/vareeth227/grupo-cordillera-servicios
 Los cinco microservicios, el API Gateway, el Eureka Server y el docker-compose.yml.
 
 ---
@@ -104,8 +104,8 @@ Los cinco microservicios, el API Gateway, el Eureka Server y el docker-compose.y
 ### 1. Clonar el repositorio de microservicios
 
 ```bash
-git clone [URL_REPOSITORIO_MICROSERVICIOS]
-cd [nombre-carpeta]
+git clone https://github.com/vareeth227/grupo-cordillera-servicios.git
+cd grupo-cordillera-servicios
 ```
 
 ### 2. Levantar el backend completo con Docker Compose
@@ -150,8 +150,8 @@ Buscar la IPv4 de la conexion activa (ejemplo: 192.168.1.100).
 Clonar el repositorio del frontend:
 
 ```bash
-git clone [URL_REPOSITORIO_FRONTEND]
-cd [nombre-carpeta-frontend]
+git clone https://github.com/vareeth227/grupo-cordillera-frontend.git
+cd grupo-cordillera-frontend
 ```
 
 Crear el archivo .env.local con la URL del API Gateway:
