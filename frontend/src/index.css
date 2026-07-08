@@ -7,9 +7,9 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e8eaf2 0%, #eef0f7 50%, #e6e9f4 100%);
+  background: linear-gradient(135deg, #f4eaf8 0%, #f8eef8 50%, #f0e8f5 100%);
   background-attachment: fixed;
-  color: #3a3d52;
+  color: #3a2d48;
   min-height: 100vh;
 }
 
@@ -19,7 +19,7 @@ body {
   border-radius: 20px;
   padding: 24px;
   box-shadow:
-    6px 8px 24px rgba(130, 140, 190, 0.18),
+    6px 8px 24px rgba(110, 50, 160, 0.14),
     -3px -3px 10px rgba(255, 255, 255, 0.92),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.65);
@@ -29,7 +29,7 @@ body {
 
 .card:hover {
   box-shadow:
-    10px 14px 32px rgba(130, 140, 190, 0.22),
+    10px 14px 32px rgba(110, 50, 160, 0.18),
     -3px -3px 12px rgba(255, 255, 255, 1),
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }
@@ -47,16 +47,16 @@ th, td {
 }
 
 th {
-  background: rgba(235, 238, 252, 0.6);
+  background: rgba(230, 220, 248, 0.55);
   font-weight: 700;
-  color: #7880a0;
+  color: #6a5080;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
 
 tr:hover td {
-  background: rgba(232, 236, 252, 0.45);
+  background: rgba(220, 200, 248, 0.35);
 }
 
 /* Badges de estado */
@@ -89,21 +89,21 @@ button:hover  { transform: translateY(-2px); }
 button:active { transform: translateY(0px); }
 
 .btn-primary {
-  background: linear-gradient(135deg, #4a72d4 0%, #3558c0 100%);
+  background: linear-gradient(135deg, #8a30b0 0%, #6a1890 100%);
   color: white;
-  box-shadow: 4px 5px 14px rgba(74, 114, 212, 0.38), -1px -1px 4px rgba(255,255,255,0.5);
+  box-shadow: 4px 5px 14px rgba(138, 48, 176, 0.38), -1px -1px 4px rgba(255,255,255,0.5);
 }
 .btn-primary:hover {
-  box-shadow: 6px 8px 20px rgba(74, 114, 212, 0.48), -1px -1px 6px rgba(255,255,255,0.7);
+  box-shadow: 6px 8px 20px rgba(138, 48, 176, 0.48), -1px -1px 6px rgba(255,255,255,0.7);
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #f0f2fa 0%, #e4e7f5 100%);
-  color: #5a6280;
-  box-shadow: 4px 5px 14px rgba(130, 140, 190, 0.2), -1px -1px 4px rgba(255,255,255,0.92);
+  background: linear-gradient(135deg, #f5f0fa 0%, #ebe4f5 100%);
+  color: #5a4070;
+  box-shadow: 4px 5px 14px rgba(110, 50, 160, 0.15), -1px -1px 4px rgba(255,255,255,0.92);
 }
 .btn-secondary:hover {
-  box-shadow: 6px 8px 20px rgba(130, 140, 190, 0.28), -1px -1px 6px rgba(255,255,255,1);
+  box-shadow: 6px 8px 20px rgba(110, 50, 160, 0.22), -1px -1px 6px rgba(255,255,255,1);
 }
 
 /* Mensajes de estado */

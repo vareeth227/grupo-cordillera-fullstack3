@@ -4,6 +4,7 @@ import { getTodosProductos, getAlertas, getStock, crearProducto, eliminarProduct
 import KpiCard from '../components/KpiCard'
 import { SkeletonKpis, SkeletonTable } from '../components/Skeleton'
 import { useToast } from '../components/Toast'
+import { DEMO_PRODUCTOS, DEMO_ALERTAS, DEMO_STOCK } from '../services/demo'
 
 const inputStyle = {
   width: '100%', padding: '8px 10px', border: '1px solid #d0d5de',
@@ -11,7 +12,7 @@ const inputStyle = {
 }
 const labelStyle = { display: 'block', marginBottom: '4px', fontSize: '12px', fontWeight: 600, color: '#555' }
 const btnPrimary = {
-  background: '#1a56db', color: '#fff', padding: '8px 20px',
+  background: '#8a30b0', color: '#fff', padding: '8px 20px',
   border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '13px', fontWeight: 600
 }
 const btnSecondary = {
@@ -45,9 +46,9 @@ export default function InventarioSection() {
 
   const showToast = useToast()
 
-  const { data: productos, loading: lProd, error: eProd } = useFetch(getTodosProductos, [refresh])
-  const { data: alertas, loading: lAlert, error: eAlert } = useFetch(getAlertas, [refresh])
-  const { data: stock, loading: lStock } = useFetch(getStock, [refresh])
+  const { data: productos, loading: lProd, error: eProd } = useFetch(getTodosProductos, [refresh], DEMO_PRODUCTOS)
+  const { data: alertas, loading: lAlert, error: eAlert } = useFetch(getAlertas, [refresh], DEMO_ALERTAS)
+  const { data: stock, loading: lStock } = useFetch(getStock, [refresh], DEMO_STOCK)
 
   const activos = productos?.filter(p => p.activo) || []
 
@@ -137,8 +138,8 @@ export default function InventarioSection() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '10px', borderBottom: '2px solid #e8ecf0' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#1a3a6e', textTransform: 'uppercase', letterSpacing: '0.6px', margin: 0 }}>Inventario</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '10px', borderBottom: '2px solid rgba(120, 60, 180, 0.18)' }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#3c1060', textTransform: 'uppercase', letterSpacing: '0.6px', margin: 0 }}>Inventario</h2>
         <button style={btnPrimary} onClick={() => { setShowForm(!showForm); setFormError(null) }}>
           {showForm ? 'Cancelar' : '+ Nuevo Producto'}
         </button>
@@ -146,8 +147,8 @@ export default function InventarioSection() {
 
       {/* Formulario de nuevo producto */}
       {showForm && (
-        <div className="card" style={{ marginBottom: '24px', borderLeft: '4px solid #1a56db' }}>
-          <h3 style={{ marginBottom: '16px', fontSize: '14px', color: '#1a56db', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Registrar Nuevo Producto</h3>
+        <div className="card" style={{ marginBottom: '24px', borderLeft: '4px solid #8a30b0' }}>
+          <h3 style={{ marginBottom: '16px', fontSize: '14px', color: '#8a30b0', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Registrar Nuevo Producto</h3>
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
               <div>
@@ -247,7 +248,7 @@ export default function InventarioSection() {
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '24px' }}>
           <KpiCard titulo="Productos Activos" valor={activos.length} color="#1a7a3e" sparkline={[120,118,125,122,130,128,135]} />
           <KpiCard titulo="Alertas Bajo Stock" valor={alertas?.length || 0} color="#c0392b" subtitulo="requieren reposición" sparkline={[8,12,10,15,11,9,7]} />
-          <KpiCard titulo="Registros de Stock" valor={stock?.length || 0} color="#1a56db" sparkline={[210,218,215,225,230,228,240]} />
+          <KpiCard titulo="Registros de Stock" valor={stock?.length || 0} color="#8a30b0" sparkline={[210,218,215,225,230,228,240]} />
         </div>
       )}
 

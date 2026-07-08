@@ -4,6 +4,7 @@ import { getPuntosDeVenta, getTransacciones, getReporteDiario, registrarVenta } 
 import KpiCard from '../components/KpiCard'
 import { SkeletonKpis, SkeletonTable } from '../components/Skeleton'
 import { useToast } from '../components/Toast'
+import { DEMO_REPORTE, DEMO_PUNTOS, DEMO_TRANSACCIONES } from '../services/demo'
 
 // Sección de Ventas: muestra puntos de venta, transacciones y reporte diario
 export default function VentasSection() {
@@ -17,10 +18,10 @@ export default function VentasSection() {
 
   const showToast = useToast()
 
-  const { data: puntos, loading: lPuntos, error: ePuntos } = useFetch(getPuntosDeVenta)
-  const { data: transacciones, loading: lTrans, error: eTrans } = useFetch(getTransacciones, [refresh])
+  const { data: puntos, loading: lPuntos, error: ePuntos } = useFetch(getPuntosDeVenta, [], DEMO_PUNTOS)
+  const { data: transacciones, loading: lTrans, error: eTrans } = useFetch(getTransacciones, [refresh], DEMO_TRANSACCIONES)
   const { data: reporte, loading: lRep, error: eRep } = useFetch(
-    () => getReporteDiario(fechaReporte), [fechaReporte, refresh]
+    () => getReporteDiario(fechaReporte), [fechaReporte, refresh], DEMO_REPORTE
   )
 
   const handleFormChange = (e) => {
@@ -63,7 +64,7 @@ export default function VentasSection() {
   }
   const labelStyle = { display: 'block', marginBottom: '4px', fontSize: '12px', fontWeight: 600, color: '#555' }
   const btnPrimary = {
-    background: '#1a56db', color: '#fff', padding: '8px 20px',
+    background: '#8a30b0', color: '#fff', padding: '8px 20px',
     border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '13px', fontWeight: 600
   }
   const btnSecondary = {
@@ -73,7 +74,7 @@ export default function VentasSection() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: '20px', fontSize: '16px', fontWeight: 600, color: '#1a3a6e', textTransform: 'uppercase', letterSpacing: '0.6px', paddingBottom: '10px', borderBottom: '2px solid #e8ecf0' }}>Ventas</h2>
+      <h2 style={{ marginBottom: '20px', fontSize: '16px', fontWeight: 600, color: '#3c1060', textTransform: 'uppercase', letterSpacing: '0.6px', paddingBottom: '10px', borderBottom: '2px solid rgba(120, 60, 180, 0.18)' }}>Ventas</h2>
 
       {/* Filtro de reporte diario */}
       <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
@@ -93,7 +94,7 @@ export default function VentasSection() {
 
       {/* Formulario para registrar venta */}
       {showForm && (
-        <div className="card" style={{ background: '#f9fafb', marginBottom: '24px', borderLeft: '4px solid #1a56db' }}>
+        <div className="card" style={{ background: '#f9fafb', marginBottom: '24px', borderLeft: '4px solid #8a30b0' }}>
           <h3 style={{ marginBottom: '16px', fontSize: '14px', fontWeight: 600 }}>Registrar Nueva Venta</h3>
           {formError && <div className="error" style={{ marginBottom: '16px' }}>{formError}</div>}
           <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
@@ -181,7 +182,7 @@ export default function VentasSection() {
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '24px' }}>
           <KpiCard titulo="Total Ventas" valor={`$${Number(reporte.totalVentas).toLocaleString('es-CL')}`} color="#1a7a3e" sparkline={[820000,950000,780000,1100000,990000,1150000,1240000]} />
           <KpiCard titulo="Devoluciones" valor={`$${Number(reporte.totalDevoluciones).toLocaleString('es-CL')}`} color="#c0392b" sparkline={[45000,38000,52000,41000,48000,36000,28000]} />
-          <KpiCard titulo="Monto Neto" valor={`$${Number(reporte.montoNeto).toLocaleString('es-CL')}`} color="#1a56db" sparkline={[775000,912000,728000,1059000,942000,1114000,1212000]} />
+          <KpiCard titulo="Monto Neto" valor={`$${Number(reporte.montoNeto).toLocaleString('es-CL')}`} color="#8a30b0" sparkline={[775000,912000,728000,1059000,942000,1114000,1212000]} />
           <KpiCard titulo="Transacciones" valor={reporte.numeroTransacciones} subtitulo="operaciones del día" color="#7c3aed" sparkline={[42,38,50,45,51,48,55]} />
         </div>
       ) : null}

@@ -33,7 +33,7 @@ function Sparkline({ data, color }) {
   )
 }
 
-export default function KpiCard({ titulo, valor, subtitulo, color = '#4a72d4', sparkline }) {
+export default function KpiCard({ titulo, valor, subtitulo, color = '#8a30b0', sparkline }) {
   const shadowBase = `6px 8px 24px ${color}25, -3px -3px 10px rgba(255,255,255,0.95), inset 0 1px 0 rgba(255,255,255,0.9)`
   const shadowHover = `10px 14px 32px ${color}35, -3px -3px 12px rgba(255,255,255,1), inset 0 1px 0 rgba(255,255,255,1)`
 

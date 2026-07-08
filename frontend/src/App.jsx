@@ -29,10 +29,10 @@ export default function App() {
 
       {/* Cabecera del dashboard */}
       <div style={{
-        background: 'linear-gradient(135deg, #1e2d5a 0%, #2e4080 100%)',
+        background: 'linear-gradient(135deg, #1c0836 0%, #4e1572 45%, #7a2468 100%)',
         padding: '22px 32px',
         marginBottom: '28px',
-        boxShadow: '0 4px 18px rgba(30, 45, 90, 0.3)',
+        boxShadow: '0 4px 20px rgba(28, 8, 54, 0.45)',
       }}>
         <h1 style={{ color: 'white', fontSize: '20px', fontWeight: 700, letterSpacing: '0.2px', textShadow: '0 1px 6px rgba(0,0,0,0.25)' }}>
           Dashboard Ejecutivo
