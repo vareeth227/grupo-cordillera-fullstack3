@@ -1,0 +1,108 @@
+@startuml Arquitectura_GrupoCordillera
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam componentStyle rectangle
+skinparam ArrowColor #444444
+skinparam ArrowThickness 1.5
+
+skinparam component {
+  BackgroundColor #EEF7EE
+  BorderColor #555555
+  FontColor #222222
+}
+
+skinparam database {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #222222
+}
+
+skinparam rectangle {
+  BorderColor #888888
+  FontColor #333333
+  FontStyle bold
+}
+
+title "Arquitectura de Microservicios - Grupo Cordillera\nDSY1106 Fullstack III - Evaluacion Parcial 3\n"
+
+actor "Usuario Final" as user
+
+' ---- FRONTEND ----
+rectangle "Frontend  |  Vercel (Cloud)" #F3EEFF {
+  component "React 18 + Vite\nAxios · React Router · Context API\nPuerto: 443 (HTTPS)" as frontend
+}
+
+' ---- BACKEND ----
+rectangle "Backend  |  Docker Compose (PC Local)" #EAF4EA {
+
+  component "Eureka Server\nSpring Cloud Netflix\nService Registry\nPuerto: 8761" as eureka #FFFDE7
+
+  component "API Gateway\nSpring Cloud Gateway (WebFlux)\nResiliencia: Resilience4j + Circuit Breaker\nValidacion JWT en cada solicitud\nPuerto: 9090" as gateway #FFF3E0
+
+  rectangle "Microservicios  |  Spring Boot 3.3 + Java 21" #F1F8E9 {
+    component "ms-ventas\nPuntos de venta y transacciones\nPuerto: 9091" as ventas
+    component "ms-ecommerce\nPedidos online\nPuerto: 9092" as ecommerce
+    component "ms-inventario\nProductos y stock\nPuerto: 9093" as inventario
+    component "ms-financiero\nIngresos, egresos y KPIs\nPuerto: 9094" as financiero
+    component "ms-clientes\nCRM + Autenticacion JWT\nBCrypt + JJWT 0.12\nPuerto: 9095" as clientes #FFEBEE
+  }
+
+  rectangle "Persistencia  |  PostgreSQL 15  |  Database per Service Pattern" #E3F2FD {
+    database "db_ventas\n:5432\nHibernate DDL" as db1
+    database "db_ecommerce\n:5433\nLiquibase" as db2
+    database "db_inventario\n:5434\nHibernate DDL" as db3
+    database "db_financiero\n:5435\nHibernate DDL" as db4
+    database "db_clientes\n:5436\nLiquibase" as db5
+  }
+}
+
+' ---- FLUJO PRINCIPAL ----
+user -right-> frontend : HTTPS
+frontend -right-> gateway : HTTP REST\nAuthorization: Bearer JWT
+
+' ---- GATEWAY -> MICROSERVICIOS ----
+gateway -down-> ventas   : /api/ventas/**
+gateway -down-> ecommerce : /api/ecommerce/**
+gateway -down-> inventario : /api/inventario/**
+gateway -down-> financiero : /api/financiero/**
+gateway -down-> clientes  : /api/clientes/**
+
+' ---- SERVICE DISCOVERY ----
+gateway ..> eureka  : Consulta registro
+ventas ..> eureka   : Registro / Heartbeat
+ecommerce ..> eureka : Registro / Heartbeat
+inventario ..> eureka : Registro / Heartbeat
+financiero ..> eureka : Registro / Heartbeat
+clientes ..> eureka  : Registro / Heartbeat
+
+' ---- PERSISTENCIA ----
+ventas    -down-> db1 : Spring Data JPA
+ecommerce -down-> db2 : Spring Data JPA
+inventario -down-> db3 : Spring Data JPA
+financiero -down-> db4 : Spring Data JPA
+clientes  -down-> db5 : Spring Data JPA
+
+' ---- NOTAS ----
+note right of clientes
+  Unico microservicio que
+  genera tokens JWT.
+  Flujo: POST /api/clientes/auth/login
+  Respuesta: { token, tipo, email, rol }
+end note
+
+note right of gateway
+  Todos los endpoints (excepto /auth/login)
+  requieren: Authorization: Bearer <token>
+  El Gateway valida el JWT antes
+  de enrutar la solicitud.
+end note
+
+note bottom of db2
+  Liquibase: control de versiones
+  del esquema con changelogs XML.
+  ms-clientes y ms-ecommerce.
+end note
+
+@enduml
