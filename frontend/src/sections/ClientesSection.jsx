@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useFetch } from '../hooks/useFetch'
 import { getTodosClientes, getTickets, desactivarCliente, eliminarCliente } from '../services/api'
 import KpiCard from '../components/KpiCard'
+import { SkeletonKpis, SkeletonTable } from '../components/Skeleton'
+import { useToast } from '../components/Toast'
 
 const btnWarning = {
   background: '#a0680a', color: '#fff', padding: '4px 10px',
@@ -13,6 +15,7 @@ const btnDanger = {
 }
 
 export default function ClientesSection() {
+  const showToast = useToast()
   const [refresh, setRefresh] = useState(0)
   const { data: clientes, loading: lCli, error: eCli } = useFetch(getTodosClientes, [refresh])
   const { data: tickets, loading: lTick, error: eTick } = useFetch(getTickets, [refresh])
@@ -30,8 +33,9 @@ export default function ClientesSection() {
     try {
       await desactivarCliente(id)
       setRefresh(r => r + 1)
+      showToast(`Cliente "${nombre}" bloqueado`)
     } catch (err) {
-      alert('Error al bloquear: ' + err.message)
+      showToast(err.message || 'Error al bloquear', 'error')
     }
   }
 
@@ -40,8 +44,9 @@ export default function ClientesSection() {
     try {
       await eliminarCliente(id)
       setRefresh(r => r + 1)
+      showToast(`Cliente "${nombre}" eliminado`, 'error')
     } catch (err) {
-      alert('Error al eliminar: ' + err.message)
+      showToast(err.message || 'Error al eliminar', 'error')
     }
   }
 
@@ -62,7 +67,7 @@ export default function ClientesSection() {
       {/* Tabla de clientes */}
       <div className="card">
         <h3 style={{ marginBottom: '16px' }}>Clientes Registrados</h3>
-        {lCli ? <div className="loading">Cargando clientes...</div>
+        {lCli ? <SkeletonTable rows={5} cols={5} />
           : eCli ? <div className="error">{eCli}</div>
           : !clientes?.length ? <div className="empty">No hay clientes registrados</div>
           : (
@@ -103,7 +108,7 @@ export default function ClientesSection() {
       {/* Tabla de tickets */}
       <div className="card">
         <h3 style={{ marginBottom: '16px' }}>Tickets de Atención</h3>
-        {lTick ? <div className="loading">Cargando tickets...</div>
+        {lTick ? <SkeletonTable rows={4} cols={4} />
           : eTick ? <div className="error">{eTick}</div>
           : !tickets?.length ? <div className="empty">No hay tickets registrados</div>
           : (

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
+import { ToastProvider } from './components/Toast'
 import VentasSection from './sections/VentasSection'
 import EcommerceSection from './sections/EcommerceSection'
 import InventarioSection from './sections/InventarioSection'
@@ -22,6 +23,7 @@ export default function App() {
   }
 
   return (
+    <ToastProvider>
     <div style={{ minHeight: '100vh' }}>
       <Navbar activeSection={activeSection} onSectionChange={setActiveSection} />
 
@@ -41,9 +43,10 @@ export default function App() {
       </div>
 
       {/* Contenido de la sección activa */}
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 48px' }}>
+      <main key={activeSection} style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 48px', animation: 'fadeIn 0.28s ease' }}>
         {sections[activeSection]}
       </main>
     </div>
+    </ToastProvider>
   )
 }

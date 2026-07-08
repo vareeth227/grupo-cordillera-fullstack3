@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useFetch } from '../hooks/useFetch'
 import { getPuntosDeVenta, getTransacciones, getReporteDiario, registrarVenta } from '../services/api'
 import KpiCard from '../components/KpiCard'
+import { SkeletonKpis, SkeletonTable } from '../components/Skeleton'
+import { useToast } from '../components/Toast'
 
 // Sección de Ventas: muestra puntos de venta, transacciones y reporte diario
 export default function VentasSection() {
@@ -12,6 +14,8 @@ export default function VentasSection() {
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState(null)
   const [refresh, setRefresh] = useState(0)
+
+  const showToast = useToast()
 
   const { data: puntos, loading: lPuntos, error: ePuntos } = useFetch(getPuntosDeVenta)
   const { data: transacciones, loading: lTrans, error: eTrans } = useFetch(getTransacciones, [refresh])
@@ -44,8 +48,10 @@ export default function VentasSection() {
       setFormData({ puntoDeVentaId: '', productoCodigo: '', cantidad: '', monto: '', tipo: 'VENTA' })
       setShowForm(false)
       setRefresh(r => r + 1)
+      showToast('Venta registrada correctamente')
     } catch (err) {
       setFormError(err.message)
+      showToast(err.message || 'Error al registrar la venta', 'error')
     } finally {
       setSaving(false)
     }
@@ -168,7 +174,7 @@ export default function VentasSection() {
       )}
 
       {lRep ? (
-        <div className="loading">Cargando reporte...</div>
+        <SkeletonKpis count={4} />
       ) : eRep ? (
         <div className="error">{eRep}</div>
       ) : reporte ? (
@@ -183,7 +189,7 @@ export default function VentasSection() {
       {/* Puntos de venta activos */}
       <div className="card">
         <h3 style={{ marginBottom: '16px' }}>Puntos de Venta Activos</h3>
-        {lPuntos ? <div className="loading">Cargando...</div>
+        {lPuntos ? <SkeletonTable rows={3} cols={4} />
           : ePuntos ? <div className="error">{ePuntos}</div>
           : !puntos?.length ? <div className="empty">No hay puntos de venta registrados</div>
           : (
@@ -208,7 +214,7 @@ export default function VentasSection() {
       {/* Últimas transacciones */}
       <div className="card">
         <h3 style={{ marginBottom: '16px' }}>Últimas Transacciones</h3>
-        {lTrans ? <div className="loading">Cargando...</div>
+        {lTrans ? <SkeletonTable rows={5} cols={6} />
           : eTrans ? <div className="error">{eTrans}</div>
           : !transacciones?.length ? <div className="empty">No hay transacciones registradas</div>
           : (

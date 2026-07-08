@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useFetch } from '../hooks/useFetch'
 import { getKpis, getIngresos, getEgresos } from '../services/api'
 import KpiCard from '../components/KpiCard'
+import { SkeletonKpis, SkeletonTable } from '../components/Skeleton'
 
 // Sección Financiera: KPIs, ingresos y egresos del período
 export default function FinancieroSection() {
@@ -34,7 +35,7 @@ export default function FinancieroSection() {
       </div>
 
       {/* KPIs financieros */}
-      {lKpi ? <div className="loading">Calculando KPIs...</div>
+      {lKpi ? <SkeletonKpis count={4} />
         : eKpi ? <div className="error" style={{ marginBottom: '20px' }}>{eKpi}</div>
         : kpis ? (
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '24px' }}>
@@ -48,7 +49,7 @@ export default function FinancieroSection() {
       {/* Tabla de ingresos */}
       <div className="card">
         <h3 style={{ marginBottom: '16px', color: '#1a7a3e' }}>Ingresos</h3>
-        {lIng ? <div className="loading">Cargando...</div>
+        {lIng ? <SkeletonTable rows={4} cols={5} />
           : eIng ? <div className="error">{eIng}</div>
           : !ingresos?.length ? <div className="empty">No hay ingresos registrados</div>
           : (
@@ -72,7 +73,7 @@ export default function FinancieroSection() {
       {/* Tabla de egresos */}
       <div className="card">
         <h3 style={{ marginBottom: '16px', color: '#c0392b' }}>Egresos</h3>
-        {lEgr ? <div className="loading">Cargando...</div>
+        {lEgr ? <SkeletonTable rows={4} cols={5} />
           : eEgr ? <div className="error">{eEgr}</div>
           : !egresos?.length ? <div className="empty">No hay egresos registrados</div>
           : (

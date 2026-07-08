@@ -1,6 +1,7 @@
 import { useFetch } from '../hooks/useFetch'
 import { getPedidos } from '../services/api'
 import KpiCard from '../components/KpiCard'
+import { SkeletonKpis, SkeletonTable } from '../components/Skeleton'
 
 // Sección de Ecommerce: muestra pedidos online y sus estados
 export default function EcommerceSection() {
@@ -24,7 +25,7 @@ export default function EcommerceSection() {
 
       <div className="card">
         <h3 style={{ marginBottom: '16px' }}>Pedidos Online</h3>
-        {loading ? <div className="loading">Cargando pedidos...</div>
+        {loading ? <SkeletonTable rows={5} cols={6} />
           : error ? <div className="error">{error}</div>
           : !pedidos?.length ? <div className="empty">No hay pedidos registrados</div>
           : (
