@@ -1,4 +1,39 @@
-export default function KpiCard({ titulo, valor, subtitulo, color = '#4a72d4' }) {
+function Sparkline({ data, color }) {
+  if (!data || data.length < 2) return null
+  const W = 120, H = 38
+  const min = Math.min(...data)
+  const max = Math.max(...data)
+  const range = max - min || 1
+  const pts = data.map((v, i) => {
+    const x = ((i / (data.length - 1)) * W).toFixed(1)
+    const y = (H - ((v - min) / range) * (H - 8) - 4).toFixed(1)
+    return `${x},${y}`
+  })
+  const polyline = pts.join(' ')
+  const [lx, ly] = pts[pts.length - 1].split(',').map(Number)
+  const area = `M ${pts.join(' L ')} L ${W},${H} L 0,${H} Z`
+  const gid = `spk${color.replace(/[^a-z0-9]/gi, '')}`
+  return (
+    <svg
+      width="100%" height={H}
+      viewBox={`0 0 ${W} ${H}`}
+      preserveAspectRatio="none"
+      style={{ display: 'block', marginTop: '10px', overflow: 'visible' }}
+    >
+      <defs>
+        <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="100%" stopColor={color} stopOpacity="0.03" />
+        </linearGradient>
+      </defs>
+      <path d={area} fill={`url(#${gid})`} />
+      <polyline points={polyline} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={lx} cy={ly} r="3" fill={color} />
+    </svg>
+  )
+}
+
+export default function KpiCard({ titulo, valor, subtitulo, color = '#4a72d4', sparkline }) {
   const shadowBase = `6px 8px 24px ${color}25, -3px -3px 10px rgba(255,255,255,0.95), inset 0 1px 0 rgba(255,255,255,0.9)`
   const shadowHover = `10px 14px 32px ${color}35, -3px -3px 12px rgba(255,255,255,1), inset 0 1px 0 rgba(255,255,255,1)`
 
@@ -7,7 +42,7 @@ export default function KpiCard({ titulo, valor, subtitulo, color = '#4a72d4' })
       style={{
         background: `linear-gradient(145deg, rgba(255,255,255,0.96) 0%, ${color}12 100%)`,
         borderRadius: '22px',
-        padding: '22px 24px',
+        padding: '22px 24px 16px',
         boxShadow: shadowBase,
         border: `1px solid ${color}22`,
         flex: 1,
@@ -41,6 +76,7 @@ export default function KpiCard({ titulo, valor, subtitulo, color = '#4a72d4' })
       {subtitulo && (
         <div style={{ fontSize: '12px', color: '#a0a8c0', marginTop: '5px' }}>{subtitulo}</div>
       )}
+      <Sparkline data={sparkline} color={color} />
     </div>
   )
 }
