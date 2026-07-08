@@ -1,0 +1,112 @@
+/* Estilos globales del dashboard Grupo Cordillera — Claymorphism */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e8eaf2 0%, #eef0f7 50%, #e6e9f4 100%);
+  background-attachment: fixed;
+  color: #3a3d52;
+  min-height: 100vh;
+}
+
+/* Tarjetas de contenido — estilo clay */
+.card {
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow:
+    6px 8px 24px rgba(130, 140, 190, 0.18),
+    -3px -3px 10px rgba(255, 255, 255, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  margin-bottom: 20px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  box-shadow:
+    10px 14px 32px rgba(130, 140, 190, 0.22),
+    -3px -3px 12px rgba(255, 255, 255, 1),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* Tablas de datos */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(200, 205, 225, 0.45);
+}
+
+th {
+  background: rgba(235, 238, 252, 0.6);
+  font-weight: 700;
+  color: #7880a0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+tr:hover td {
+  background: rgba(232, 236, 252, 0.45);
+}
+
+/* Badges de estado */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.badge-success { background: #d4ede1; color: #1a6840; }
+.badge-warning { background: #fdefd3; color: #8a5800; }
+.badge-danger  { background: #fde0dc; color: #b83028; }
+.badge-info    { background: #d8e8fc; color: #1548a0; }
+
+/* Botones — estilo clay */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+button:hover  { transform: translateY(-2px); }
+button:active { transform: translateY(0px); }
+
+.btn-primary {
+  background: linear-gradient(135deg, #4a72d4 0%, #3558c0 100%);
+  color: white;
+  box-shadow: 4px 5px 14px rgba(74, 114, 212, 0.38), -1px -1px 4px rgba(255,255,255,0.5);
+}
+.btn-primary:hover {
+  box-shadow: 6px 8px 20px rgba(74, 114, 212, 0.48), -1px -1px 6px rgba(255,255,255,0.7);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #f0f2fa 0%, #e4e7f5 100%);
+  color: #5a6280;
+  box-shadow: 4px 5px 14px rgba(130, 140, 190, 0.2), -1px -1px 4px rgba(255,255,255,0.92);
+}
+.btn-secondary:hover {
+  box-shadow: 6px 8px 20px rgba(130, 140, 190, 0.28), -1px -1px 6px rgba(255,255,255,1);
+}
+
+/* Mensajes de estado */
+.loading { text-align: center; padding: 40px; color: #8890b0; }
+.error   { color: #b83028; background: rgba(253, 224, 220, 0.85); padding: 14px 18px; border-radius: 14px; font-size: 13px; }
+.empty   { text-align: center; padding: 40px; color: #8890b0; }
